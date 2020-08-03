@@ -108,12 +108,16 @@ START;
     }
 
     // 方法：列出分享的记事本
-    public function listSharednote()
+    public function listSharednote($page)
     {
         // 为了数据库和浏览器性能，需要截取从数据库中的字符串。
         // error_reporting(0);
+        // 先处理一下分页
+        // 每一页是$page + 50
+        $page = 0;
+        $total = $page + 50;
         $userid = $_SESSION['user'];
-        $sql = "SELECT `id`, `title`, `add_time`, LEFT(`content`, 100), `share` FROM `notes` WHERE `share` = 1 ORDER BY `notes`.`add_time` DESC";
+        $sql = "SELECT `id`, `title`, `add_time`, LEFT(`content`, 100), `share` FROM `notes` WHERE `share` = 1 ORDER BY `notes`.`add_time` DESC LIMIT $page, $total";
         $result = $this->db_con->query($sql);
         while ($row = mysqli_fetch_array($result)) {
             $noteid = $row['id'];
@@ -121,7 +125,7 @@ START;
             $content = htmlspecialchars(base64_decode($row['LEFT(`content`, 100)']));
             $add_time = $row['add_time'];
             if (!$row['share'] == NULL) {
-                $share = '<span style="color:red">SHARED</span>';
+                $share = '<span style="color:blue">SHARED</span>';
             } else {
                 $share = NULL;
             }
@@ -143,6 +147,52 @@ START;
     </div>
 </li>
 START;
+        }
+        $this->db_con->close();
+    }
+
+    // 蠢方法：列出分享的记事本++
+    public function listSharednoteplus() {
+        // 为了数据库和浏览器性能，需要截取从数据库中的字符串。
+        // error_reporting(0);
+        // 先处理一下分页
+        // 每一页是$page -1 + 50
+        $page = $_COOKIE['page'] - 1;
+        $page = mysqli_real_escape_string($this->db_con, $page);
+        $total = $page-1+50;
+        $userid = $_SESSION['user'];
+        $sql = "SELECT `id`, `title`, `add_time`, LEFT(`content`, 100), `share` FROM `notes` WHERE `share` = 1 ORDER BY `notes`.`add_time` DESC LIMIT $page, $total";
+        $result = $this->db_con->query($sql);
+        if (mysqli_num_rows($result) <= 0) {
+            echo <<<START
+            <li style="border-radius: 10px;" class="mdui-list-item mdui-ripple" onclick="loadMore()">
+    <div class="mdui-list-item-content">
+        <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">没有更多内容了</span></div>
+        <div class="mdui-list-item-text mdui-list-item-two-line">下次加载时会重设计数器。</div>
+    </div>
+</li>
+START;
+            setcookie('page', 1, time()+1000, '/api');
+        }else {
+        while ($row = mysqli_fetch_array($result)) {
+            $noteid = $row['id'];
+            $title = htmlspecialchars(base64_decode($row['title']));
+            $content = htmlspecialchars(base64_decode($row['LEFT(`content`, 100)']));
+            $add_time = $row['add_time'];
+            if (!$row['share'] == NULL) {
+                $share = '<span style="color:blue">SHARED</span>';
+            } else {
+                $share = NULL;
+            }
+            echo <<<START
+            <li style="border-radius: 10px;" class="mdui-list-item mdui-ripple" id="loadNote" onclick="loadNote($noteid, '$title')">
+    <div class="mdui-list-item-content">
+        <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: gray;position: absolute; right: 15px">$share $add_time</span></div>
+        <div class="mdui-list-item-text mdui-list-item-two-line">$content...</div>
+    </div>
+</li>
+START;
+}
         }
         $this->db_con->close();
     }
@@ -242,7 +292,7 @@ START;
                 // 如果为空，则共享
                 $sql = "UPDATE `notes` SET `share` = 1 WHERE `notes`.`id` = $this->noteid";
                 $this->db_con->query($sql);
-                return '已共享，将链接发送给其他人即可：https://imlo.li/share.php?noteid=' . $this->noteid . '<br />获取标题：https://imlo.li/api/pull.php?id=' . $this->noteid . '&action=getTitle<br />获取内容：https://imlo.li/api/pull.php?id=' . $this->noteid . '&action=getContent<br />获取双者：https://imlo.li/api/pull.php?id=' . $this->noteid;
+                return '已共享并展示在分享广场中，将链接发送给其他人即可：https://imlo.li/share.php?noteid=' . $this->noteid . '<br />获取标题：https://imlo.li/api/pull.php?id=' . $this->noteid . '&action=getTitle<br />获取内容：https://imlo.li/api/pull.php?id=' . $this->noteid . '&action=getContent<br />获取双者：https://imlo.li/api/pull.php?id=' . $this->noteid;
                 echo $row['share'];
             } else {
                 // 取消共享
@@ -359,5 +409,4 @@ START;
         $sql = "DELETE FROM `categorys` WHERE `categorys`.`id` = $this->cgid AND `by_user` = $userid";
         $this->db_con->query($sql);
     }
-    /* 没想到吧，小叶酱的公共词库也在这~ */
 }

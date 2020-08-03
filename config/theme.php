@@ -35,6 +35,10 @@ function mduiMenu()
                     <i class="mdui-list-item-icon mdui-icon material-icons">add</i>
                     <div class="mdui-list-item-content" onclick="loadAdd()">新增记事本</div>
                 </li>
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">share</i>
+                    <div class="mdui-list-item-content" onclick="loadShareground()">分享广场</div>
+                </li>
             </div>
             <li class="mdui-subheader">分类</li>
             <div id="categorys">
@@ -52,10 +56,8 @@ function mduiHead($title)
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.0/dist/css/mdui.min.css" integrity="sha384-2PJ2u4NYg6jCNNpv3i1hK9AoAqODy6CdiC+gYiL2DVx+ku5wzJMFNdE3RoWfBIRP" crossorigin="anonymous" />
-    
-    <link rel="icon" href="https://ivampiresp.com/wp-content/uploads/2020/02/cropped-illust_78879291_20200207_181713-32x32.jpg" sizes="32x32" />
-    <link rel="icon" href="https://ivampiresp.com/wp-content/uploads/2020/02/cropped-illust_78879291_20200207_181713-192x192.jpg" sizes="192x192" />
-    <link rel="apple-touch-icon" href="https://ivampiresp.com/wp-content/uploads/2020/02/cropped-illust_78879291_20200207_181713-180x180.jpg" />
+    <link rel="icon" href="https://nwl.im/avatar" />
+    <link rel="apple-touch-icon" href="https://nwl.im/avatar" />
     <style type="text/css">
     .link {
         color: blue;
