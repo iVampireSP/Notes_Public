@@ -40,10 +40,12 @@ if (!empty($_REQUEST['action'])) {
     </style>
 </head>
     <?php mduiBody(); mduiHeader('浏览：' . $user->getTitle()); mduiMenu(); ?>
-    <script src="ajax.js"></script>
     <h1 class="mdui-text-color-theme" style="text-align: center"><?php echo $user->getTitle();?></h1>
     <pre style="font-family: Arial, Helvetica, sans-serif; white-space: pre-wrap; word-wrap: break-word; font-size: 16px"><?php echo $user->viewNote(); ?></pre>
     <button class="mdui-fab mdui-fab-fixed mdui-color-theme-accent mdui-ripple" onclick="sharenote(<?php echo $_REQUEST['noteid']; ?>)" ><i class="mdui-icon material-icons">share</i></button>
+    <?php
+    mduiFooter();
+    ?>
 </body>
 
 </html>
