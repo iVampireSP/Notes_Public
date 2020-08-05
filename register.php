@@ -16,17 +16,24 @@ require_once('config/theme.php');
 
 <head>
     <?php mduiHead('注册 Sweet Home Notes'); ?>
-    <style type="text/css">
+        <style type="text/css">
         .texto {
             width: 50%;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            white-space:nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        
-        #menu .mdui-list-item, .mdui-collapse-item-header {
+
+        #menu .mdui-list-item,
+        .mdui-collapse-item-header {
             border-radius: 0px 50px 50px 0px;
         }
+
+        #categorys .mdui-list-item,
+        .mdui-collapse-item-header {
+            border-radius: 0px 50px 50px 0px;
+        }
+
         ul .mdui-list-item {
             border-radius: 10px;
         }
@@ -37,6 +44,26 @@ require_once('config/theme.php');
 
         .mdui-btn {
             border-radius: 5px;
+        }
+
+        .mdui-appbar {
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+        }
+
+        #menu * {
+            color: rgb(27,116,232);
+        }
+        
+        #menu .mdui-list-item-content {
+            font-size: unset
+        }
+
+        #categorys * {
+            color: rgb(27,116,232);
+        }
+
+        #categorys .mdui-list-item-content {
+            font-size: unset
         }
     </style>
 </head>

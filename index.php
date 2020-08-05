@@ -62,7 +62,6 @@ require_once('config/theme.php');
         #categorys .mdui-list-item-content {
             font-size: unset
         }
-
     </style>
 </head>
 <?php mduiBody();

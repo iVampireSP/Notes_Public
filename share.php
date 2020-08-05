@@ -38,11 +38,63 @@ if (!empty($_REQUEST['action'])) {
             width: 99.5%;
         }
     </style>
+        <style type="text/css">
+        .texto {
+            width: 50%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #menu .mdui-list-item,
+        .mdui-collapse-item-header {
+            border-radius: 0px 50px 50px 0px;
+        }
+
+        #categorys .mdui-list-item,
+        .mdui-collapse-item-header {
+            border-radius: 0px 50px 50px 0px;
+        }
+
+        ul .mdui-list-item {
+            border-radius: 10px;
+        }
+
+        .mdui-dialog {
+            border-radius: 7px;
+        }
+
+        .mdui-btn {
+            border-radius: 5px;
+        }
+
+        .mdui-appbar {
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+        }
+
+        #menu * {
+            color: rgb(27,116,232);
+        }
+        
+        #menu .mdui-list-item-content {
+            font-size: unset
+        }
+
+        #categorys * {
+            color: rgb(27,116,232);
+        }
+
+        #categorys .mdui-list-item-content {
+            font-size: unset
+        }
+    </style>
 </head>
     <?php mduiBody(); mduiHeader('浏览：' . $user->getTitle()); mduiMenu(); ?>
+    <div id="mainContent">
     <h1 class="mdui-text-color-theme" style="text-align: center"><?php echo $user->getTitle();?></h1>
     <pre style="font-family: Arial, Helvetica, sans-serif; white-space: pre-wrap; word-wrap: break-word; font-size: 16px"><?php echo $user->viewNote(); ?></pre>
     <button class="mdui-fab mdui-fab-fixed mdui-color-theme-accent mdui-ripple" onclick="sharenote(<?php echo $_REQUEST['noteid']; ?>)" ><i class="mdui-icon material-icons">share</i></button>
+    </div>
     <?php
     mduiFooter();
     ?>
