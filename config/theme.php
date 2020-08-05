@@ -30,7 +30,7 @@ function mduiMenu()
     <div class="mdui-drawer" id="main-drawer">
         <ul class="mdui-list">
             <div id="menu">
-                <li class="mdui-list-item mdui-ripple"><i class="mdui-list-item-icon mdui-icon material-icons">event_note</i><div class="mdui-list-item-content" onclick="loadIndex()">记事本</div></li>
+                <li class="mdui-list-item mdui-ripple mdui-list-item-active"><i class="mdui-list-item-icon mdui-icon material-icons">event_note</i><div class="mdui-list-item-content" onclick="loadIndex()">记事本</div></li>
                 <li class="mdui-list-item mdui-ripple">
                     <i class="mdui-list-item-icon mdui-icon material-icons">add</i>
                     <div class="mdui-list-item-content" onclick="loadAdd()">新增记事本</div>
