@@ -60,7 +60,7 @@ function getID() {
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle(xmlhttp.responseText);
-            mdui.alert(xmlhttp.responseText);
+            mdui.alert('您的用户ID：' + xmlhttp.responseText);
             changeUrl(null, xmlhttp.responseText);
             disableload();
         }
@@ -307,9 +307,11 @@ function loadEdit(noteid) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle('编辑记事本');
             changeUrl('/', 'Sweet Home -> Edit');
+            loadEnterprise_edit();
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">edit</i><div class=\"mdui-list-item-content\" onclick=\"loadEdit(" + noteid + ")\">编辑记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             disableload();
+
         }
     }
     xmlhttp.open("GET", "editnote.php?noteid=" + noteid, true);
@@ -505,4 +507,157 @@ function loadShareground() {
     }
     xmlhttp.open("GET", "shareground.php", true);
     xmlhttp.send();
+}
+
+function loadBar() {
+    loadCategorymenu();
+    loadGroupmenu();
+}
+
+// 组
+loadGroupmenu();
+
+function loadGroupmenu() {
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("groups").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "api/getGroups.php", true);
+    xmlhttp.send();
+}
+
+function loadAddGroup() {
+    changeUrl(null, '正在加载编辑器...');
+    showloading();
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            subTitle('新增组');
+            changeUrl('/', 'Sweet Home -> New Group');
+            document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            disableload();
+        }
+    }
+    xmlhttp.open("GET", "addGroup.php", true);
+    xmlhttp.send();
+}
+
+function newGroup() {
+    changeUrl(null, 'Sweet Home');
+    showloading();
+    var nickname = $('#nickname').val();
+    var name = $('#name').val();
+    var ip_port = $('#group_ip_port').val();
+    var pwd = $('#group_pwd').val();
+    // 先判断是否为空，请：
+    if (name == null || name == "" || nickname == null || nickname == "" || ip_port == null || ip_port == "" || pwd == null || pwd == "") {
+        mdui.alert('能不能好好填啊Kora!');
+        changeUrl(null, '能不能好好填啊Kora!');
+        setTimeout(function() {
+            changeUrl(null, 'Sweet Home -> New Group');
+        }, 2000);
+        disableload();
+        return false;
+    }
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            mdui.alert('组已经添加成功了，展开您的"菜单->组列表"看看吧！');
+            loadGroupmenu();
+            disableload();
+        }
+    }
+    xmlhttp.open("POST", "addGroup.php", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send(`name=${name}&nickname=${nickname}&ip_port=${ip_port}&password=${pwd}`);
+}
+
+
+// 加载组内容
+function loadGroup(id, name, ip_port) {
+    changeUrl(null, name);
+    showloading();
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            subTitle(name);
+            document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            disableload();
+            Connect_Group(ip_port);
+        }
+    }
+    xmlhttp.open("GET", "group.php?id=" + id, true);
+    xmlhttp.send();
+}
+
+function delGroup(id) {
+    changeUrl(null, '删除组：' + id);
+    showloading();
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            loadGroupmenu();
+            loadIndex();
+            disableload();
+        }
+    }
+    xmlhttp.open("GET", "delGroup.php?id=" + id, true);
+    xmlhttp.send();
+}
+
+// 加载组编辑器
+function loadGroupEditor() {
+    changeUrl(null, '正在加载组编辑器...');
+    showloading();
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            subTitle('组记事本');
+            changeUrl('/', 'Sweet Home -> New');
+            document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
+            disableload();
+            // #content变化时提交信息
+            $("#content").change(function() {
+                ws.send($('#content').val());
+            });
+            // 实时接收
+
+        }
+    }
+    xmlhttp.open("GET", "addnote.php", true);
+    xmlhttp.send();
+}
+
+// 组实时编辑
+function Connect_Group(ip_port) {
+    ws = new WebSocket("ws://" + ip_port);
+    ws.onopen = function() {
+        mdui.snackbar({
+            message: '尝试与组服务器建立连接',
+            position: 'bottom'
+        });
+        loadGroupEditor();
+    };
+    ws.onclose = function(event) {
+        mdui.snackbar({
+            message: '与组服务器断开，请及时保存。',
+            position: 'bottom'
+        });
+    };
+    ws.onmessage = function(e) {
+        $('#content').val(e.data);
+        mdui.snackbar({
+            message: '内容有更新',
+            position: 'bottom'
+        });
+    };
 }

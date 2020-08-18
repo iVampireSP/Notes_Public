@@ -18,7 +18,8 @@ if (!empty($_REQUEST['title']) || !empty($_REQUEST['content']) || !empty($_REQUE
         <input id="title" class="mdui-textfield-input" type="text" autocomplete="off" autofocus required />
     </div>
     <div class="mdui-textfield">
-        <textarea id="content" class="mdui-textfield-input" rows="25" placeholder="I'm Lo.li 我是洛丽。今天也要元气满满哟！" autocomplete="off"></textarea>
+        <label class="mdui-textfield-label">标题</label>
+        <textarea id="content" class="mdui-textfield-input" rows="25" placeholder="I'm Lo.li 我是洛丽。今天也要元气满满！" autocomplete="off"></textarea>
     </div>
     选择分类：
     <select class="mdui-select" name="cgid" id="cgid" mdui-select required>

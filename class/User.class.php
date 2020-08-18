@@ -152,14 +152,15 @@ START;
     }
 
     // 蠢方法：列出分享的记事本++
-    public function listSharednoteplus() {
+    public function listSharednoteplus()
+    {
         // 为了数据库和浏览器性能，需要截取从数据库中的字符串。
         // error_reporting(0);
         // 先处理一下分页
         // 每一页是$page -1 + 50
-        $page = ($_COOKIE['page']-1) * 50; 
+        $page = ($_COOKIE['page'] - 1) * 50;
         $page = mysqli_real_escape_string($this->db_con, $page);
-        $total = $page-1+50;
+        $total = $page - 1 + 50;
         $userid = $_SESSION['user'];
         $sql = "SELECT `id`, `title`, `add_time`, LEFT(`content`, 100), `share` FROM `notes` WHERE `share` = 1 ORDER BY `notes`.`add_time` DESC LIMIT $page, $total";
         $result = $this->db_con->query($sql);
@@ -172,19 +173,19 @@ START;
     </div>
 </li>
 START;
-            setcookie('page', 1, time()+1000, '/api');
-        }else {
-        while ($row = mysqli_fetch_array($result)) {
-            $noteid = $row['id'];
-            $title = htmlspecialchars(base64_decode($row['title']));
-            $content = htmlspecialchars(base64_decode($row['LEFT(`content`, 100)']));
-            $add_time = $row['add_time'];
-            if (!$row['share'] == NULL) {
-                $share = '<span style="color:blue">SHARED</span>';
-            } else {
-                $share = NULL;
-            }
-            echo <<<START
+            setcookie('page', 1, time() + 1000, '/api');
+        } else {
+            while ($row = mysqli_fetch_array($result)) {
+                $noteid = $row['id'];
+                $title = htmlspecialchars(base64_decode($row['title']));
+                $content = htmlspecialchars(base64_decode($row['LEFT(`content`, 100)']));
+                $add_time = $row['add_time'];
+                if (!$row['share'] == NULL) {
+                    $share = '<span style="color:blue">SHARED</span>';
+                } else {
+                    $share = NULL;
+                }
+                echo <<<START
             <li style="border-radius: 10px;" class="mdui-list-item mdui-ripple" id="loadNote" onclick="loadNote($noteid, '$title')">
     <div class="mdui-list-item-content">
         <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: gray;position: absolute; right: 15px">$share $add_time</span></div>
@@ -192,7 +193,7 @@ START;
     </div>
 </li>
 START;
-}
+            }
         }
         $this->db_con->close();
     }
@@ -322,7 +323,7 @@ START;
         if (empty($_SESSION['user'])) {
             return '无法获取ID，请确保您已经登录。';
         } else {
-            return '您的用户ID为：' . $_SESSION['user'];
+            return $_SESSION['user'];
         }
     }
 
@@ -404,19 +405,78 @@ START;
     }
 
     // 方法：删除分类
-    public function delCg() {
+    public function delCg()
+    {
         $userid = $_SESSION['user'];
         $sql = "DELETE FROM `categorys` WHERE `categorys`.`id` = $this->cgid AND `by_user` = $userid";
         $this->db_con->query($sql);
     }
-    
+
     // 方法：获取发布时间
-    public function getTimedate() {
+    public function getTimedate()
+    {
         $this->id = mysqli_real_escape_string($this->db_con, $this->id);
         $sql = "SELECT `add_time` FROM `notes` WHERE `id` = $this->noteid";
         while ($rows = $this->db_con->query($sql)->fetch_assoc()) {
             echo $this->add_time = $rows['add_time'];
             break;
         }
+    }
+
+    // 方法：获取组列表
+    public function getGrouplist()
+    {
+        $userid = $_SESSION['user'];
+        $sql = "SELECT `id`, `name`, `ip_port` FROM `groups` WHERE `by_user` = $userid";
+        $result = $this->db_con->query($sql);
+        while ($rows = mysqli_fetch_array($result)) {
+            echo '<li class="mdui-list-item mdui-ripple"><i class="mdui-list-item-icon mdui-icon material-icons"></i><div class="mdui-list-item-content" style="padding-top:0px;padding-bottom:0px" onclick="loadGroup(' . $rows['id'] . ',\'' . $rows['name'] . '\',\'' . $rows['ip_port'] . '\')"> ' . $rows['name'] . '<span onclick="delGroup(' . $rows['id'] . ')" style="position: absolute; top: 14%;right:10%;min-width:15%;margin:0px;padding:0px;" class="mdui-btn mdui-ripple mdui-text-color-primary"><i class="mdui-icon material-icons">close</i></span></div></li>';
+            // echo '<span class="mdui-list-item mdui-ripple" onclick="loadCategory(' . $rows['id'] . ',\'' . $rows['name'] . '\')">' . $rows['name'] . '<span onclick="delCg(' . $rows['id'] . ')" style="position: absolute; right: 4%;min-width:auto" class="mdui-btn mdui-ripple mduip_porti-text-color-primary">删除</span></span>';
+        }
+        $this->db_con->close();
+    }
+
+    // 新增组
+    public function addGroup($name, $nickname, $ip_port, $password)
+    {
+        $userid = $_SESSION['user'];
+        $this->name = mysqli_real_escape_string($this->db_con, $name);
+        $nickname = mysqli_real_escape_string($this->db_con, $nickname);
+        $ip_port = mysqli_real_escape_string($this->db_con, $ip_port);
+        $password = mysqli_real_escape_string($this->db_con, $password);
+        $sql = "INSERT INTO `groups` (`id`, `nickname`, `name`, `ip_port`, `password`, `by_user`) VALUES (NULL, '$nickname', '$name','$ip_port', '$password', '$userid')";
+        $this->db_con->query($sql);
+        $this->db_con->close();
+    }
+
+    // 获取昵称（写废了）
+    public function getNickname() {
+        $userid = $_SESSION['user'];
+        $sql = "SELECT `nickname` FROM `groups` WHERE `by_user` = $userid";
+        while ($row = mysqli_fetch_array($this->db_con->query($sql))) {
+            echo $row['nickname'];
+        break;
+        }
+        $this->db_con->close();
+    }
+
+    // 获取IP:Port
+    public function getIP_Port() {
+        $userid = $_SESSION['user'];
+        $sql = "SELECT `ip_port` FROM `groups` WHERE `by_user` = $userid";
+        while ($row = mysqli_fetch_array($this->db_con->query($sql))) {
+            echo $row['ip_port'];
+        break;
+        }
+        $this->db_con->close();
+    }
+
+    // 删除组
+    public function delGroup($id) {
+        $userid = $_SESSION['user'];
+        $id = mysqli_real_escape_string($this->db_con, $id);
+        $sql = "DELETE FROM `groups` WHERE `groups`.`id` = $id AND `by_user` = $userid";
+        $this->db_con->query($sql);
+        $this->db_con->close();
     }
 }

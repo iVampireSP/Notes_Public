@@ -5,7 +5,7 @@ function mduiHeader($subtitle)
     echo <<<EOF
     <header class="mdui-appbar-fixed mdui-appbar">
     <div class="mdui-color-theme mdui-toolbar" style="background-color:white">
-        <span onclick="loadCategorymenu()" style="border-radius: 100%" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+        <span onclick="loadBar()" style="border-radius: 100%" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
             mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
         <span class="mdui-typo-headline mdui-hidden-xs" onclick="loadIndex()">$sitename</span>
         <span class="mdui-typo-title" id="subTitle">$subtitle</span>
@@ -44,6 +44,10 @@ function mduiMenu()
             <div id="categorys">
                 
             </div>
+            <li class="mdui-subheader">组列表</li>
+            <div id="groups">
+            
+            </div>
         </ul>
     </div>
 EOF;
@@ -73,6 +77,7 @@ function mduiBody()
 
 function mduiFooter() {
     echo <<<EOF
+    <script src='//cdn.bootcss.com/socket.io/1.3.7/socket.io.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.0/dist/js/mdui.min.js" integrity="sha384-aB8rnkAu/GBsQ1q6dwTySnlrrbhqDwrDnpVHR2Wgm8pWLbwUnzDcIROX3VvCbaK+" crossorigin="anonymous"></script>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>

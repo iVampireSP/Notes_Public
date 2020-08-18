@@ -30,6 +30,19 @@ require_once('config/theme.php');
         .mdui-collapse-item-header {
             border-radius: 0px 50px 50px 0px;
         }
+        
+        #categorys .mdui-list-item-content {
+            font-size: unset
+        }
+
+        #groups .mdui-list-item,
+        .mdui-collapse-item-header {
+            border-radius: 0px 50px 50px 0px;
+        }
+        
+        #groups .mdui-list-item-content {
+            font-size: unset
+        }
 
         ul .mdui-list-item {
             border-radius: 10px;
@@ -51,9 +64,6 @@ require_once('config/theme.php');
             font-size: unset
         }
 
-        #categorys .mdui-list-item-content {
-            font-size: unset
-        }
         
         .mdui-list-item-active {
             color: rgb(27,116,232);
