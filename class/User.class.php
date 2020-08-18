@@ -53,7 +53,7 @@ class User
                 $_SESSION['user'] = $userid;
                 return '登录成功，欢迎回来。';
             } else {
-                return '当前密码被加密后与我们存储的不符合。';
+                return '密码不正确。';
             }
         } else {
             return '找不到对应的用户ID。';
@@ -157,7 +157,7 @@ START;
         // error_reporting(0);
         // 先处理一下分页
         // 每一页是$page -1 + 50
-        $page = $_COOKIE['page'] - 1;
+        $page = ($_COOKIE['page']-1) * 50; 
         $page = mysqli_real_escape_string($this->db_con, $page);
         $total = $page-1+50;
         $userid = $_SESSION['user'];
@@ -408,5 +408,15 @@ START;
         $userid = $_SESSION['user'];
         $sql = "DELETE FROM `categorys` WHERE `categorys`.`id` = $this->cgid AND `by_user` = $userid";
         $this->db_con->query($sql);
+    }
+    
+    // 方法：获取发布时间
+    public function getTimedate() {
+        $this->id = mysqli_real_escape_string($this->db_con, $this->id);
+        $sql = "SELECT `add_time` FROM `notes` WHERE `id` = $this->noteid";
+        while ($rows = $this->db_con->query($sql)->fetch_assoc()) {
+            echo $this->add_time = $rows['add_time'];
+            break;
+        }
     }
 }

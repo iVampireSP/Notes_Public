@@ -49,21 +49,21 @@ require_once('config/theme.php');
         .mdui-appbar {
             box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
         }
-
-        #menu * {
-            color: rgb(27,116,232);
-        }
         
         #menu .mdui-list-item-content {
             font-size: unset
         }
 
-        #categorys * {
-            color: rgb(27,116,232);
-        }
-
         #categorys .mdui-list-item-content {
             font-size: unset
+        }
+        
+        .mdui-list-item-active {
+            color: rgb(27,116,232);
+        }
+        
+        .mdui-list-item-active * {
+            color: rgb(27,116,232);
         }
     </style>
 </head>

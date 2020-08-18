@@ -11,9 +11,6 @@ require_once('config/theme.php');
 // 翻页
 ?>
 <ul class="mdui-list">
-    <?php
-        $user->listSharednote(1);
-    ?>
 </ul>
 <!-- 别问我什么在标题标签里面套button，因为他居中一直可以的 -->
 <h5 style="text-align:center"><button id="loadMore-btn" onclick="loadMore()" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent mdui-ripple">加载更多</button></h5>
