@@ -5,11 +5,6 @@ if (!isset($_SESSION['user'])) {
     return '*';
 }
 require_once('config/config.php');
-if (!empty($_REQUEST['title']) || !empty($_REQUEST['content']) || !empty($_REQUEST['cgid'])) {
-    $user->addNote($_REQUEST['title'], $_REQUEST['content'], $_REQUEST['cgid']);
-    echo '新的记事本已添加。';
-    return '*';
-}
 ?>
 <button class="mdui-btn" style="position: relative;top:10px"  onclick="loadIndex();"><i class="mdui-icon material-icons">arrow_back</i>返回首页</button>
 <h1 style="font-weight: 400;"><span style="font-size: xxx-large;">新</span>记事本</h1>

@@ -10,10 +10,6 @@ if (!isset($_GET['noteid'])) {
     header("Location: index.php");
     return '*';
 }
-if (!empty($_POST['title'])||!empty($_POST['content'])) {
-    $user->editNote($_POST['title'], $_POST['content']);
-    return '*';
-}
 ?>
 <button class="mdui-btn" style="position: relative;top:10px"  onclick="loadIndex();"><i class="mdui-icon material-icons">arrow_back</i>返回首页</button>
 <form name="editnote" id="editnote-form">

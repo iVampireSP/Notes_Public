@@ -250,8 +250,8 @@ START;
     public function addNote($title, $content, $cgid)
     {
         $userid = $_SESSION['user'];
-        $this->title = mysqli_real_escape_string($this->db_con, $title);
-        $this->content = mysqli_real_escape_string($this->db_con, $content);
+        $this->title = mysqli_real_escape_string($this->db_con, base64_encode($title));
+        $this->content = mysqli_real_escape_string($this->db_con, base64_encode($content));
         $this->cgid = mysqli_real_escape_string($this->db_con, $cgid);
         $datetime = date('Y-m-d H:i:s');
         $sql = "INSERT INTO `notes` (`id`, `title`, `content`, `add_time`, `by_user`, `by_category`) VALUES (NULL, '$this->title', '$this->content', '$datetime', $userid, $this->cgid)";
@@ -263,8 +263,8 @@ START;
     public function editNote($title, $content)
     {
         $userid = $_SESSION['user'];
-        $this->title = mysqli_real_escape_string($this->db_con, $title);
-        $this->content = mysqli_real_escape_string($this->db_con, $content);
+        $this->title = mysqli_real_escape_string($this->db_con, base64_encode($title));
+        $this->content = mysqli_real_escape_string($this->db_con, base64_encode($content));
         $sql = "UPDATE `notes` SET `title` = '$this->title' WHERE `id` = $this->noteid AND `by_user` = $userid";
         $this->db_con->query($sql);
         $sql = "UPDATE `notes` SET `content` = '$this->content' WHERE `id` = $this->noteid AND `by_user` = $userid";

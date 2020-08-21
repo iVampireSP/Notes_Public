@@ -10,121 +10,6 @@ window.addEventListener('change_style', function(event) {
     $$('body').toggleClass('mdui-theme-layout-dark');
 });
 
-/**
- *
- *  Base64 encode / decode
- *
- *  @author haitao.tu
- *  @date   2010-04-26
- *  @email  tuhaitao@foxmail.com
- *
- */
-
-function Base64() {
-
-    // private property
-    _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-    // public method for encoding
-    this.encode = function(input) {
-        var output = "";
-        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-        var i = 0;
-        input = _utf8_encode(input);
-        while (i < input.length) {
-            chr1 = input.charCodeAt(i++);
-            chr2 = input.charCodeAt(i++);
-            chr3 = input.charCodeAt(i++);
-            enc1 = chr1 >> 2;
-            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-            enc4 = chr3 & 63;
-            if (isNaN(chr2)) {
-                enc3 = enc4 = 64;
-            } else if (isNaN(chr3)) {
-                enc4 = 64;
-            }
-            output = output +
-                _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
-                _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
-        }
-        return output;
-    }
-
-    // public method for decoding
-    this.decode = function(input) {
-        var output = "";
-        var chr1, chr2, chr3;
-        var enc1, enc2, enc3, enc4;
-        var i = 0;
-        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-        while (i < input.length) {
-            enc1 = _keyStr.indexOf(input.charAt(i++));
-            enc2 = _keyStr.indexOf(input.charAt(i++));
-            enc3 = _keyStr.indexOf(input.charAt(i++));
-            enc4 = _keyStr.indexOf(input.charAt(i++));
-            chr1 = (enc1 << 2) | (enc2 >> 4);
-            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-            chr3 = ((enc3 & 3) << 6) | enc4;
-            output = output + String.fromCharCode(chr1);
-            if (enc3 != 64) {
-                output = output + String.fromCharCode(chr2);
-            }
-            if (enc4 != 64) {
-                output = output + String.fromCharCode(chr3);
-            }
-        }
-        output = _utf8_decode(output);
-        return output;
-    }
-
-    // private method for UTF-8 encoding
-    _utf8_encode = function(string) {
-        string = string.replace(/\r\n/g, "\n");
-        var utftext = "";
-        for (var n = 0; n < string.length; n++) {
-            var c = string.charCodeAt(n);
-            if (c < 128) {
-                utftext += String.fromCharCode(c);
-            } else if ((c > 127) && (c < 2048)) {
-                utftext += String.fromCharCode((c >> 6) | 192);
-                utftext += String.fromCharCode((c & 63) | 128);
-            } else {
-                utftext += String.fromCharCode((c >> 12) | 224);
-                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-                utftext += String.fromCharCode((c & 63) | 128);
-            }
-
-        }
-        return utftext;
-    }
-
-    // private method for UTF-8 decoding
-    _utf8_decode = function(utftext) {
-        var string = "";
-        var i = 0;
-        var c = c1 = c2 = 0;
-        while (i < utftext.length) {
-            c = utftext.charCodeAt(i);
-            if (c < 128) {
-                string += String.fromCharCode(c);
-                i++;
-            } else if ((c > 191) && (c < 224)) {
-                c2 = utftext.charCodeAt(i + 1);
-                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-                i += 2;
-            } else {
-                c2 = utftext.charCodeAt(i + 1);
-                c3 = utftext.charCodeAt(i + 2);
-                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-                i += 3;
-            }
-        }
-        return string;
-    }
-}
-var b = new Base64();
-
 // 公告
 // mdui.alert('请注意：我们的许可条款已更新。<br />改动内容：分享记事本时，记事本将会出现在“分享广场”上。<br />请熟知！');
 
@@ -395,8 +280,8 @@ function newNote() {
             }, 200);
         }, 200);
     }, 200);
-    var title = b.encode($('#title').val());
-    var content = b.encode($('#content').val());
+    var title = $('#title').val();
+    var content = $('#content').val();
     var cgid = $('#cgid').val();
 
     // 先判断是否为空，请：
@@ -412,21 +297,29 @@ function newNote() {
         disableload();
         return false;
     }
-    var xmlhttp;
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    $.ajax({
+        url: '/api/addNote.php',
+        type: 'post',
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({ "title": $('#title').val(), "content": $('#content').val(), "cgid": $('#cgid').val() }),
+        dataType: 'json',
+        success: function() {
             mdui.snackbar({
-                message: xmlhttp.responseText,
+                message: '创建成功。',
+                position: 'bottom'
+            });
+            loadIndex();
+            disableload();
+        },
+        error: function(message) {
+            mdui.snackbar({
+                message: '无法创建记事本。',
                 position: 'bottom'
             });
             loadIndex();
             disableload();
         }
-    }
-    xmlhttp.open("POST", "addnote.php", true);
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send(`title=${title}&content=${content}&cgid=${cgid}`);
+    });
 }
 
 function loadEdit(noteid) {
@@ -451,8 +344,8 @@ function loadEdit(noteid) {
 function editNote(noteid) {
     changeUrl(null, '正在提交更改...');
     showloading();
-    var title = b.encode($('#title').val());
-    var content = b.encode($('#content').val());
+    var title = $('#title').val();
+    var content = $('#content').val();
     // 先判断是否为空，请：
     if (title == null || content == "" || title == null || content == "") {
         mdui.snackbar({
@@ -465,22 +358,29 @@ function editNote(noteid) {
         }, 2000);
         return false;
     }
-    var xmlhttp;
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            changeUrl(null, '所选的记事本内容已被更改。');
+    $.ajax({
+        url: '/api/editNote.php',
+        type: 'post',
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({ "noteid": noteid, "title": $('#title').val(), "content": $('#content').val() }),
+        dataType: 'json',
+        success: function() {
             mdui.snackbar({
-                message: '记事本内容已更新。',
+                message: '已修改记事本。',
                 position: 'bottom'
             });
-            loadNote(noteid, title);
+            loadIndex();
+            disableload();
+        },
+        error: function(message) {
+            mdui.snackbar({
+                message: '无法修改记事本。',
+                position: 'bottom'
+            });
+            loadIndex();
             disableload();
         }
-    }
-    xmlhttp.open("POST", "editnote.php?noteid=" + noteid, true);
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send(`title=${title}&content=${content}`);
+    });
 }
 
 function delNote(noteid) {
