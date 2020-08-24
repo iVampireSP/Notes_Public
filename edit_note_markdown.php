@@ -99,7 +99,7 @@ mduiMenu(); ?>
             <label class="mdui-textfield-label">内容</label>
             <div id="editor">
                 <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
-                <textarea name="content" id="content" style="display:none;"><?php echo $user->viewNote(); ?></textarea>
+                <textarea name="content" id="content" style="display:none;"><?php echo htmlspecialchars($user->viewNote()); ?></textarea>
             </div>
         </div>
         <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
