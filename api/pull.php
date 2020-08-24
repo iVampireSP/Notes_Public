@@ -6,7 +6,6 @@ $type = htmlspecialchars(urlencode($_REQUEST['type']));
 if (empty($type)) {
     $type = 'plain';
 }
-
 $user = new User();
 $user->db_con = $db_con;
 $user->noteid = $_REQUEST['id'];
