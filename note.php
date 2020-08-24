@@ -52,12 +52,12 @@ if (!empty($_REQUEST['action'])) {
     <div class="mdui-card" style="margin-top: 15px;border-radius:10px">
         <div class="mdui-card-primary">
             <div class="mdui-card-primary-title"><?php echo $user->getTitle(); ?></div>
-            <div class="mdui-card-primary-subtitle" style="margin-top: 5px">发布时间：<?php echo $user->getTimedate(); ?></div>
+            <div class="mdui-card-primary-subtitle" style="margin-top: 5px">创建时间：<?php echo $user->getTimedate(); ?></div>
         </div>
         <div class="mdui-card-content" style="margin-top: -35px">
             <div id="markdown-view">
-            <!-- Server-side output Markdown text -->
-            <textarea style="display:none;"><?php echo $user->viewNote(); ?></textarea>
+                <!-- Server-side output Markdown text -->
+                <textarea style="display:none;"><?php echo $user->viewNote(); ?></textarea>
             </div>
         </div>
     </div>
