@@ -11,7 +11,7 @@ if (!isset($_GET['noteid'])) {
     return '*';
 }
 ?>
-<button class="mdui-btn" style="position: relative;top:10px"  onclick="loadIndex();"><i class="mdui-icon material-icons">arrow_back</i>返回首页</button>
+<button class="mdui-btn" style="position: relative;top:10px"  onclick="loadIndex();"><i class="mdui-icon material-icons">arrow_back</i>返回首页</button><a href="edit_note_markdown.php?noteid=<?php echo $_GET['noteid']; ?>" style="position: relative;top:10px;left:1rem" class="mdui-btn">或者启动Markdown编辑器</a>
 <form name="editnote" id="editnote-form">
     <div class="mdui-textfield">
         <label class="mdui-textfield-label">标题</label>

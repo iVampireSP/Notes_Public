@@ -1,6 +1,6 @@
 <?php
 // 数据库连接配置
-define('DB_HOST', 'localhost');
+define('DB_HOST', '192.168.2.104');
 define('DB_USER', 'notes_public');
 define('DB_PASS', 'notes_public');
 define('DB_NAME', 'notes_public');

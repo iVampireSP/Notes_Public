@@ -6,7 +6,7 @@ if (!isset($_SESSION['user'])) {
 }
 require_once('config/config.php');
 ?>
-<button class="mdui-btn" style="position: relative;top:10px"  onclick="loadIndex();"><i class="mdui-icon material-icons">arrow_back</i>返回首页</button>
+<button class="mdui-btn" style="position: relative;top:10px" onclick="loadIndex();"><i class="mdui-icon material-icons">arrow_back</i>返回首页</button><a href="add_note_markdown.php" style="position: relative;top:10px;left:1rem" class="mdui-btn">或者启动Markdown编辑器</a>
 <h1 style="font-weight: 400;"><span style="font-size: xxx-large;">新</span>记事本</h1>
 <form name="addnote">
     <div class="mdui-textfield mdui-textfield-floating-label">

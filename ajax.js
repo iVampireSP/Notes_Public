@@ -219,6 +219,13 @@ function loadNote(noteid, title) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             changeUrl('/note.php?noteid=' + noteid, title);
             subTitle(title);
+            $(function() {
+                var View = editormd.markdownToHTML("markdown-view", {
+                    // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                    htmlDecode: true, // Enable / disable HTML tag encode.
+                    // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+                });
+            });
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
             //<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li>
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">edit</i><div class=\"mdui-list-item-content\" onclick=\"loadEdit(" + noteid + ")\">编辑记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
@@ -639,6 +646,10 @@ function loadGroup(id, name, ip_port) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle(name);
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mdui.snackbar({
+                message: '正在连接到组服务器...',
+                position: 'bottom'
+            });
             disableload();
             Connect_Group(ip_port);
         }
@@ -680,8 +691,6 @@ function loadGroupEditor() {
             $("#content").change(function() {
                 ws.send($('#content').val());
             });
-            // 实时接收
-
         }
     }
     xmlhttp.open("GET", "addnote.php", true);
@@ -690,10 +699,10 @@ function loadGroupEditor() {
 
 // 组实时编辑
 function Connect_Group(ip_port) {
-    ws = new WebSocket("ws://" + ip_port);
+    ws = new WebSocket("wss://" + ip_port);
     ws.onopen = function() {
         mdui.snackbar({
-            message: '尝试与组服务器建立连接',
+            message: '已建立连接',
             position: 'bottom'
         });
         loadGroupEditor();
