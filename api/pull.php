@@ -2,7 +2,11 @@
 error_reporting(0);
 require_once('../config/database.php');
 require_once('../class/User.class.php');
-header('Content-Type: text/plain');
+$type = htmlspecialchars(urlencode($_REQUEST['type']));
+if (empty($type)) {
+    $type = 'plain';
+}
+header("Content-Type: text/$type");
 $user = new User();
 $user->db_con = $db_con;
 $user->noteid = $_REQUEST['id'];
