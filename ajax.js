@@ -217,7 +217,7 @@ function loadNote(noteid, title) {
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            changeUrl('/note.php?noteid=' + noteid, title);
+            changeUrl(null, title);
             subTitle(title);
             $(function() {
                 var View = editormd.markdownToHTML("markdown-view", {
@@ -235,6 +235,33 @@ function loadNote(noteid, title) {
     xmlhttp.open("GET", "note.php?noteid=" + noteid, true);
     xmlhttp.send();
 }
+
+function loadShareNote(noteid, title) {
+    changeUrl(null, `正在加载记事本：${title}...`);
+    showloading();
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            changeUrl('/share.php?noteid=' + noteid, title);
+            subTitle(title);
+            $(function() {
+                var View = editormd.markdownToHTML("markdown-view", {
+                    // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                    htmlDecode: true, // Enable / disable HTML tag encode.
+                    // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+                });
+            });
+            document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            //<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li>
+            document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
+            disableload();
+        }
+    }
+    xmlhttp.open("GET", "note.php?noteid=" + noteid, true);
+    xmlhttp.send();
+}
+
 
 function loadIndex() {
     changeUrl(null, '正在加载概览...');

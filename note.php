@@ -37,7 +37,13 @@ if (!empty($_REQUEST['action'])) {
     .mdui-card-primary-title,
     .mdui-card-primary-subtitle,
     .mdui-card-content {
-        margin: 0 10px 0 10px;
+        margin: 0 10px 0 5px;
+    }
+    .editormd-html-preview, .editormd-preview-container {
+        padding: 0;
+    }
+    #markdown-view {
+        margin: 10px 5px;
     }
 </style>
 

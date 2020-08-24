@@ -81,9 +81,9 @@ class User
             $content = htmlspecialchars(base64_decode($row['LEFT(`content`, 100)']));
             $add_time = $row['add_time'];
             if (!$row['share'] == NULL) {
-                $share = '<span style="color:blue">SHARED</span>';
+                $share = 'blue';
             } else {
-                $share = NULL;
+                $share = 'gray';
             }
             //             echo <<<START
             //             <a href="note.php?noteid=$noteid">
@@ -98,7 +98,7 @@ class User
             echo <<<START
             <li class="mdui-list-item mdui-ripple" onclick="loadNote($noteid, '$title')">
     <div class="mdui-list-item-content">
-        <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: gray;position: absolute; right: 15px">$share $add_time</span></div>
+        <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: $share;position: absolute; right: 15px">$add_time</span></div>
         <div class="mdui-list-item-text mdui-list-item-two-line">$content...</div>
     </div>
 </li>
@@ -125,9 +125,9 @@ START;
             $content = htmlspecialchars(base64_decode($row['LEFT(`content`, 100)']));
             $add_time = $row['add_time'];
             if (!$row['share'] == NULL) {
-                $share = '<span style="color:blue">SHARED</span>';
+                $share = 'blue';
             } else {
-                $share = NULL;
+                $share = 'gray';
             }
             //             echo <<<START
             //             <a href="note.php?noteid=$noteid">
@@ -140,9 +140,9 @@ START;
             //             </a>
             // START;
             echo <<<START
-            <li class="mdui-list-item mdui-ripple" id="loadNote" onclick="loadNote($noteid, '$title')">
+            <li class="mdui-list-item mdui-ripple" id="loadNote" onclick="loadShareNote($noteid, '$title')">
     <div class="mdui-list-item-content">
-        <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: gray;position: absolute; right: 15px">$share $add_time</span></div>
+        <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: $share;position: absolute; right: 15px">$add_time</span></div>
         <div class="mdui-list-item-text mdui-list-item-two-line">$content...</div>
     </div>
 </li>
@@ -186,7 +186,7 @@ START;
                     $share = NULL;
                 }
                 echo <<<START
-            <li style="border-radius: 10px;" class="mdui-list-item mdui-ripple" id="loadNote" onclick="loadNote($noteid, '$title')">
+            <li style="border-radius: 10px;" class="mdui-list-item mdui-ripple" id="loadNote" onclick="loadShareNote($noteid, '$title')">
     <div class="mdui-list-item-content">
         <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: gray;position: absolute; right: 15px">$share $add_time</span></div>
         <div class="mdui-list-item-text mdui-list-item-two-line">$content...</div>
