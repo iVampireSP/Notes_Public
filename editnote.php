@@ -19,7 +19,7 @@ if (!isset($_GET['noteid'])) {
     </div>
     <div class="mdui-textfield">
         <label class="mdui-textfield-label">内容</label>
-        <textarea id="content" class="mdui-textfield-input" rows="25" placeholder="I'm Lo.li 我是洛丽。今天也要元气满满！" autocomplete="off"><?php echo htmlspecialchars($user->viewNote()); ?></textarea>
+        <textarea id="content" class="mdui-textfield-input" rows="33" placeholder="I'm Lo.li 我是洛丽。今天也要元气满满！" autocomplete="off"><?php echo htmlspecialchars($user->viewNote()); ?></textarea>
     </div>
     <div class="mdui-col">
     <span id="a-but" onclick="editNote(<?php echo $user->noteid; ?>)" class="mdui-fab mdui-fab-fixed mdui-color-theme-accent"><i class="mdui-icon material-icons">save</i></span>
