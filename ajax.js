@@ -198,6 +198,7 @@ function userLogin() {
                 position: 'bottom'
             });
             loadIndex();
+            loadBar();
             disableload();
         }
     }
