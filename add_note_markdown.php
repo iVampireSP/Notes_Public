@@ -126,7 +126,7 @@ mduiMenu(); ?>
             });
         </script>
         选择分类：
-        <select class="mdui-select" name="cgid" id="cgid" mdui-select required>
+        <select class="mdui-select" name="cgid" id="cgid" mdui-select="{position: 'top'}" required>
             <?php $user->getCategorylistselect(); ?>
         </select>
         <br /><br /><br />

@@ -18,7 +18,7 @@ require_once('config/config.php');
         <textarea id="content" class="mdui-textfield-input" rows="25" placeholder="I'm Lo.li 我是洛丽。今天也要元气满满！" autocomplete="off"></textarea>
     </div>
     选择分类：
-    <select class="mdui-select" name="cgid" id="cgid" mdui-select required>
+    <select class="mdui-select" name="cgid" id="cgid" mdui-select="{position: 'top'}" required>
         <?php $user->getCategorylistselect(); ?>
     </select>
     <br /><br /><br />
