@@ -58,6 +58,8 @@ function mduiHead($title)
     echo <<<EOF
     <title>$sitename - $title</title>
     <meta charset="utf-8" />
+    <meta name="keywords" content="Note,记事本,笔记本,多人协作,在线记事本,免安装" />
+    <meta name="description" content="Sweet Home Note(White Note) 是一个在线免费易用的记事本" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="/editor.md/css/editormd.preview.min.css" />
     <link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
