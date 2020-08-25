@@ -95,8 +95,9 @@ class User
             //                 </li>
             //             </a>
             // START;
+            $loadtitle = str_replace("'", "\'", $title);
             echo <<<START
-            <li class="mdui-list-item mdui-ripple" onclick="loadNote($noteid, '$title')">
+            <li class="mdui-list-item mdui-ripple" onclick="loadNote($noteid, '$loadtitle')">
     <div class="mdui-list-item-content">
         <div class="mdui-list-item-title mdui-list-item-one-line texto"><span class="mdui-text-color-theme">$title</span><span style="color: $share;position: absolute; right: 15px">$add_time</span></div>
         <div class="mdui-list-item-text mdui-list-item-two-line">$content...</div>
