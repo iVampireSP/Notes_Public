@@ -3,6 +3,7 @@ session_start();
 require_once('config/config.php');
 if (isset($_REQUEST['userid']) || isset($_REQUEST['password'])) {
     // 用户登录
+    sleep(1);
     echo $user->Login($_REQUEST['userid'], $_REQUEST['password']);
     return '*';
 }
