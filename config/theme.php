@@ -72,6 +72,10 @@ function mduiHead($title)
         color: blue;
         text-decoration:none
     }
+    #mainContent, #noteContent {
+        position: relative;
+        top: 0px
+    }
     </style>
 EOF;
 }

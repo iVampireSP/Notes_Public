@@ -49,6 +49,15 @@ function changeUrl(url, title) {
     document.title = title;
     history.pushState(stateObject, title, newUrl);
 }
+
+function mainAnime() {
+    $("#mainContent").animate({ top: '100rem' });
+}
+
+function mainAnime_end() {
+    $("#mainContent").animate({ top: '0px' });
+}
+
 loadCategorymenu();
 
 // 获取ID
@@ -214,6 +223,7 @@ function subTitle(title) {
 function loadNote(noteid, title) {
     changeUrl(null, `正在加载记事本：${title}...`);
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -231,6 +241,7 @@ function loadNote(noteid, title) {
             //<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li>
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">edit</i><div class=\"mdui-list-item-content\" onclick=\"loadEdit(" + noteid + ")\">编辑记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             disableload();
+            mainAnime_end();
         }
     }
     xmlhttp.open("GET", "note.php?noteid=" + noteid, true);
@@ -240,6 +251,7 @@ function loadNote(noteid, title) {
 function loadShareNote(noteid, title) {
     changeUrl(null, `正在加载记事本：${title}...`);
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -257,6 +269,7 @@ function loadShareNote(noteid, title) {
             //<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li>
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             disableload();
+            mainAnime_end();
         }
     }
     xmlhttp.open("GET", "note.php?noteid=" + noteid, true);
@@ -267,6 +280,7 @@ function loadShareNote(noteid, title) {
 function loadIndex() {
     changeUrl(null, '正在加载概览...');
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -274,6 +288,7 @@ function loadIndex() {
             changeUrl('/', 'Sweet Home -> Note');
             subTitle('记事本');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             disableload();
         }
@@ -285,6 +300,7 @@ function loadIndex() {
 function loadAdd() {
     changeUrl(null, '正在加载编辑器...');
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -292,6 +308,7 @@ function loadAdd() {
             subTitle('新增记事本');
             changeUrl('/', 'Sweet Home -> New');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             mdui.mutation();
             disableload();
@@ -361,6 +378,7 @@ function newNote() {
 function loadEdit(noteid) {
     changeUrl(null, '正在加载编辑器...');
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -368,6 +386,7 @@ function loadEdit(noteid) {
             subTitle('编辑记事本');
             changeUrl('/', 'Sweet Home -> Edit');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">edit</i><div class=\"mdui-list-item-content\" onclick=\"loadEdit(" + noteid + ")\">编辑记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             disableload();
 
@@ -526,12 +545,14 @@ function newCategory() {
 function loadCategory(id, name) {
     changeUrl(null, name);
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle(name);
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             disableload();
         }
     }
@@ -575,12 +596,14 @@ function loadMore() {
 
 function loadShareground() {
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle('分享广场');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             loadMore();
             disableload();
@@ -613,6 +636,7 @@ function loadGroupmenu() {
 function loadAddGroup() {
     changeUrl(null, '正在加载编辑器...');
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -620,6 +644,7 @@ function loadAddGroup() {
             subTitle('新增组');
             changeUrl('/', 'Sweet Home -> New Group');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             disableload();
         }
     }
@@ -669,12 +694,14 @@ function newGroup() {
 function loadGroup(id, name, ip_port) {
     changeUrl(null, name);
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle(name);
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             mdui.snackbar({
                 message: '正在连接到组服务器...',
                 position: 'bottom'
@@ -707,6 +734,7 @@ function delGroup(id) {
 function loadGroupEditor() {
     changeUrl(null, '正在加载组编辑器...');
     showloading();
+    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -714,6 +742,7 @@ function loadGroupEditor() {
             subTitle('组记事本');
             changeUrl('/', 'Sweet Home -> New');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+            mainAnime_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             disableload();
             // #content变化时提交信息
