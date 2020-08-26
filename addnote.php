@@ -11,7 +11,7 @@ require_once('config/config.php');
 <form name="addnote">
     <div class="mdui-textfield mdui-textfield-floating-label">
         <label class="mdui-textfield-label">标题</label>
-        <input id="title" class="mdui-textfield-input" type="text" autocomplete="off" autofocus required />
+        <input id="title" class="mdui-textfield-input" type="text" value="未命名记事本 <?php echo date('Y-m-d H:i:s');?>" autocomplete="off" autofocus required />
     </div>
     <div class="mdui-textfield">
         <label class="mdui-textfield-label">内容</label>

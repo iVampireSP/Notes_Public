@@ -93,7 +93,7 @@ mduiMenu(); ?>
     <form name="addnote" method="post" action="add_note_markdown.php">
         <div class="mdui-textfield mdui-textfield-floating-label">
             <label class="mdui-textfield-label">标题</label>
-            <input name="title" class="mdui-textfield-input" type="text" autocomplete="off" autofocus required />
+            <input name="title" class="mdui-textfield-input" type="text" autocomplete="off" value="未命名记事本 <?php echo date('Y-m-d H:i:s');?>" autofocus required />
         </div>
         <div class="mdui-textfield">
             <label class="mdui-textfield-label">内容</label>
