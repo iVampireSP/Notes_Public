@@ -31,7 +31,7 @@ function showloading() {
     if (abutton !== null) {
         document.getElementById("a-but").style.display = 'none';
     }
-    document.getElementById("mainContent").style.filter = "blur(1px)";
+    // document.getElementById("mainContent").style.filter = "blur(1px)";
 }
 
 function disableload() {
@@ -40,7 +40,7 @@ function disableload() {
     if (abutton !== null) {
         document.getElementById("a-but").style.display = 'block';
     }
-    document.getElementById("mainContent").style.filter = "unset";
+    // document.getElementById("mainContent").style.filter = "unset";
 }
 
 function changeUrl(url, title) {
@@ -51,11 +51,13 @@ function changeUrl(url, title) {
 }
 
 function mainAnime() {
-    $("#mainContent").animate({ top: '100rem' });
+    $("#main-drawer").animate({ height: '0px' });
+    $("#mainContent").animate({ width: '0px' });
 }
 
 function mainAnime_end() {
-    $("#mainContent").animate({ top: '0px' });
+    $("#main-drawer").animate({ height: '100%' });
+    $("#mainContent").animate({ width: '100%' });
 }
 
 loadCategorymenu();
