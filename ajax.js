@@ -51,12 +51,10 @@ function changeUrl(url, title) {
 }
 
 function mainAnime() {
-    $("#main-drawer").animate({ height: '0px' });
     $("#mainContent").animate({ width: '0px' });
 }
 
 function mainAnime_end() {
-    $("#main-drawer").animate({ height: '100%' });
     $("#mainContent").animate({ width: '100%' });
 }
 
