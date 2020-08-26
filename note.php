@@ -42,6 +42,7 @@ if (!empty($_REQUEST['action'])) {
     .editormd-html-preview, .editormd-preview-container {
         padding: 0;
     }
+    
     #markdown-view {
         margin: 10px 5px;
     }
