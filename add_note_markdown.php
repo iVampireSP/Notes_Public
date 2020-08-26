@@ -73,7 +73,6 @@ if(!empty($_POST['title']) || !empty($_POST['content']) || !empty($_POST['cgid']
             font-size: unset
         }
 
-
         .mdui-list-item-active {
             color: rgb(27, 116, 232);
         }
