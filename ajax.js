@@ -12,8 +12,17 @@ window.addEventListener('change_style', function(event) {
 
 // 公告
 // mdui.alert('请注意：我们的许可条款已更新。<br />改动内容：分享记事本时，记事本将会出现在“分享广场”上。<br />请熟知！');
-
-
+$("#loadScreen").css('height', '100%');
+$("#loadScreenText").css('display', 'block');
+document.onreadystatechange = completeLoading;
+// 加载完成后隐藏加载界面
+function completeLoading() {
+    if (document.readyState == "complete") {
+        $("#loadScreen").animate({ height: '0px' });
+        $("#loadScreen").css('height', '0');
+        $("#loadScreenText").css('display', 'none');
+    }
+}
 
 function change_style() {
     // 在对应的元素上触发该事件
@@ -31,16 +40,52 @@ function showloading() {
     if (abutton !== null) {
         document.getElementById("a-but").style.display = 'none';
     }
+    document.getElementById("topload").style.display = 'block';
+}
+
+function showloading_end() {
+    var abutton = document.getElementById("a-but");
+    // document.getElementById("topload").style.display = "block";
+    if (abutton !== null) {
+        document.getElementById("a-but").style.display = 'none';
+    }
+    document.getElementById("topload").style.display = 'none';
+}
+
+function showloading_list() {
+    var abutton = document.getElementById("a-but");
+    // document.getElementById("topload").style.display = "block";
+    if (abutton !== null) {
+        document.getElementById("a-but").style.display = 'none';
+    }
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "Skeleton/list.html", true);
+    xmlhttp.send();
     // document.getElementById("mainContent").style.filter = "blur(1px)";
 }
 
-function disableload() {
+function showloading_note() {
     var abutton = document.getElementById("a-but");
-    // document.getElementById("topload").style.display = "none";
+    // document.getElementById("topload").style.display = "block";
     if (abutton !== null) {
-        document.getElementById("a-but").style.display = 'block';
+        document.getElementById("a-but").style.display = 'none';
     }
-    // document.getElementById("mainContent").style.filter = "unset";
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "Skeleton/note.html", true);
+    xmlhttp.send();
+    // document.getElementById("mainContent").style.filter = "blur(1px)";
 }
 
 function changeUrl(url, title) {
@@ -48,14 +93,6 @@ function changeUrl(url, title) {
     var newUrl = url;
     document.title = title;
     history.pushState(stateObject, title, newUrl);
-}
-
-function mainAnime() {
-    $("#mainContent").animate({ width: '0px' });
-}
-
-function mainAnime_end() {
-    $("#mainContent").animate({ width: '100%' });
 }
 
 loadCategorymenu();
@@ -71,7 +108,7 @@ function getID() {
             subTitle(xmlhttp.responseText);
             mdui.alert('您的用户ID：' + xmlhttp.responseText);
             changeUrl(null, xmlhttp.responseText);
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "/api/getID.php", true);
@@ -94,7 +131,7 @@ function sharenote(noteid) {
                         text: '确认',
                         onClick: function(inst) {
                             changeUrl(null, '继续浏览记事本。');
-                            disableload();
+                            showloading_end();
                         }
                     }]
                 });
@@ -107,7 +144,7 @@ function sharenote(noteid) {
                         text: '确认',
                         onClick: function(inst) {
                             changeUrl(null, '继续浏览记事本。');
-                            disableload();
+                            showloading_end();
                         }
                     }]
                 });
@@ -129,7 +166,7 @@ function delAcc() {
             subTitle('账号已删除。');
             mdui.alert('账号已删除。');
             changeUrl(null, '账号已删除。');
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "delAcc.php", true);
@@ -146,7 +183,7 @@ function loadWelcome() {
             subTitle('欢迎新用户');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
             changeUrl(null, '欢迎新用户。');
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "welcome.html", true);
@@ -164,7 +201,7 @@ function userReg() {
             message: '能不能好好填啊Kora!',
             position: 'bottom'
         });
-        disableload();
+        showloading_end();
         return false;
     }
     var xmlhttp;
@@ -174,7 +211,7 @@ function userReg() {
             mdui.alert(xmlhttp.responseText);
             changeUrl('/', 'Sweet Home -> Note');
             loadWelcome();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("POST", "register.php", true);
@@ -193,7 +230,7 @@ function userLogin() {
             message: '能不能好好填啊Kora!',
             position: 'bottom'
         });
-        disableload();
+        showloading_end();
         return false;
     }
     var xmlhttp;
@@ -208,7 +245,7 @@ function userLogin() {
             });
             loadIndex();
             loadBar();
-            disableload();
+
         }
     }
     xmlhttp.open("POST", "login.php", true);
@@ -222,8 +259,7 @@ function subTitle(title) {
 
 function loadNote(noteid, title) {
     changeUrl(null, `正在加载记事本：${title}...`);
-    showloading();
-    mainAnime();
+    showloading_note();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -237,11 +273,12 @@ function loadNote(noteid, title) {
                     // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
                 });
             });
+            showloading_end();
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
             //<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li>
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">edit</i><div class=\"mdui-list-item-content\" onclick=\"loadEdit(" + noteid + ")\">编辑记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
-            disableload();
-            mainAnime_end();
+
+
         }
     }
     xmlhttp.open("GET", "note.php?noteid=" + noteid, true);
@@ -250,8 +287,7 @@ function loadNote(noteid, title) {
 
 function loadShareNote(noteid, title) {
     changeUrl(null, `正在加载记事本：${title}...`);
-    showloading();
-    mainAnime();
+    showloading_note();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -265,11 +301,12 @@ function loadShareNote(noteid, title) {
                     // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
                 });
             });
+            showloading_end();
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
             //<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li>
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
-            disableload();
-            mainAnime_end();
+
+
         }
     }
     xmlhttp.open("GET", "note.php?noteid=" + noteid, true);
@@ -279,8 +316,7 @@ function loadShareNote(noteid, title) {
 
 function loadIndex() {
     changeUrl(null, '正在加载概览...');
-    showloading();
-    mainAnime();
+    showloading_list();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -288,9 +324,8 @@ function loadIndex() {
             changeUrl('/', 'Sweet Home -> Note');
             subTitle('记事本');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "main.php", true);
@@ -299,8 +334,7 @@ function loadIndex() {
 
 function loadAdd() {
     changeUrl(null, '正在加载编辑器...');
-    showloading();
-    mainAnime();
+    showloading_note();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -308,10 +342,10 @@ function loadAdd() {
             subTitle('新增记事本');
             changeUrl('/', 'Sweet Home -> New');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
+            showloading_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             mdui.mutation();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "addnote.php", true);
@@ -347,7 +381,7 @@ function newNote() {
         setTimeout(function() {
             changeUrl(null, 'Sweet Home -> New');
         }, 2000);
-        disableload();
+        showloading_end();
         return false;
     }
     $.ajax({
@@ -362,7 +396,7 @@ function newNote() {
                 position: 'bottom'
             });
             loadIndex();
-            disableload();
+            showloading_end();
         },
         error: function(message) {
             mdui.snackbar({
@@ -370,7 +404,7 @@ function newNote() {
                 position: 'bottom'
             });
             loadIndex();
-            disableload();
+            showloading_end();
         }
     });
 }
@@ -378,7 +412,6 @@ function newNote() {
 function loadEdit(noteid) {
     changeUrl(null, '正在加载编辑器...');
     showloading();
-    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -386,9 +419,8 @@ function loadEdit(noteid) {
             subTitle('编辑记事本');
             changeUrl('/', 'Sweet Home -> Edit');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
+            showloading_end();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">edit</i><div class=\"mdui-list-item-content\" onclick=\"loadEdit(" + noteid + ")\">编辑记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">delete</i><div class=\"mdui-list-item-content\" onclick=\"loadDelnote(" + noteid + ")\">删除记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
-            disableload();
         }
     }
     xmlhttp.open("GET", "editnote.php?noteid=" + noteid, true);
@@ -423,8 +455,8 @@ function editNote(noteid) {
                 message: '已修改记事本。',
                 position: 'bottom'
             });
+            showloading_end();
             loadIndex();
-            disableload();
         },
         error: function(message) {
             mdui.snackbar({
@@ -432,7 +464,7 @@ function editNote(noteid) {
                 position: 'bottom'
             });
             loadIndex();
-            disableload();
+            showloading_end();
         }
     });
 }
@@ -450,7 +482,7 @@ function delNote(noteid) {
             });
             changeUrl('/', 'Sweet Home -> Note');
             loadIndex();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "delnote.php?noteid=" + noteid, true);
@@ -469,7 +501,7 @@ function loadDelnote(noteid) {
                 onClick: function(inst) {
                     showloading();
                     delNote(noteid);
-                    disableload();
+                    showloading_end();
                 }
             }
         ]
@@ -498,7 +530,7 @@ function loadAddCategory() {
             subTitle('新增分类');
             changeUrl('/', 'Sweet Home -> New Category');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "addCategory.php", true);
@@ -519,7 +551,7 @@ function newCategory() {
         setTimeout(function() {
             changeUrl(null, 'Sweet Home -> New Category');
         }, 2000);
-        disableload();
+        showloading_end();
         return false;
     }
     var xmlhttp;
@@ -531,7 +563,7 @@ function newCategory() {
                 position: 'bottom'
             });
             loadCategorymenu();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("POST", "addCategory.php", true);
@@ -543,16 +575,13 @@ function newCategory() {
 // 加载分类内容
 function loadCategory(id, name) {
     changeUrl(null, name);
-    showloading();
-    mainAnime();
+    showloading_list();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle(name);
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
-            disableload();
         }
     }
     xmlhttp.open("GET", "category.php?id=" + id, true);
@@ -567,7 +596,7 @@ function delCg(id) {
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             loadCategorymenu();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "delCg.php?id=" + id, true);
@@ -583,7 +612,7 @@ function loadMore() {
             document.getElementById('loadMore-btn').parentNode.removeChild(document.getElementById('loadMore-btn'));
             document.getElementById('loadMore-btn').parentNode.removeChild(document.getElementById('loadMore-btn'));
             document.getElementById("mainContent").innerHTML = document.getElementById("mainContent").innerHTML + xmlhttp.responseText;
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "api/getSharepageplus.php", true);
@@ -594,18 +623,17 @@ function loadMore() {
 // Shareground.php
 
 function loadShareground() {
-    showloading();
-    mainAnime();
+    showloading_list();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle('分享广场');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
+
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
             loadMore();
-            disableload();
+
         }
     }
     xmlhttp.open("GET", "shareground.php", true);
@@ -635,7 +663,6 @@ function loadGroupmenu() {
 function loadAddGroup() {
     changeUrl(null, '正在加载编辑器...');
     showloading();
-    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -643,8 +670,7 @@ function loadAddGroup() {
             subTitle('新增组');
             changeUrl('/', 'Sweet Home -> New Group');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "addGroup.php", true);
@@ -668,7 +694,7 @@ function newGroup() {
         setTimeout(function() {
             changeUrl(null, 'Sweet Home -> New Group');
         }, 2000);
-        disableload();
+        showloading_end();
         return false;
     }
     var xmlhttp;
@@ -680,7 +706,7 @@ function newGroup() {
                 position: 'bottom'
             });
             loadGroupmenu();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("POST", "addGroup.php", true);
@@ -693,19 +719,18 @@ function newGroup() {
 function loadGroup(id, name, ip_port) {
     changeUrl(null, name);
     showloading();
-    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             subTitle(name);
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
+            showloading_end();
             mdui.snackbar({
                 message: '正在连接到组服务器...',
                 position: 'bottom'
             });
-            disableload();
+            showloading_end();
             Connect_Group(ip_port);
         }
     }
@@ -722,7 +747,7 @@ function delGroup(id) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             loadGroupmenu();
             loadIndex();
-            disableload();
+            showloading_end();
         }
     }
     xmlhttp.open("GET", "delGroup.php?id=" + id, true);
@@ -733,7 +758,6 @@ function delGroup(id) {
 function loadGroupEditor() {
     changeUrl(null, '正在加载组编辑器...');
     showloading();
-    mainAnime();
     var xmlhttp;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -741,10 +765,8 @@ function loadGroupEditor() {
             subTitle('组记事本');
             changeUrl('/', 'Sweet Home -> New');
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
-            mainAnime_end();
             mdui.mutation();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
-            disableload();
             // #content变化时提交信息
             $("#content").change(function() {
                 ws.send($('#content').val());

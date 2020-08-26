@@ -77,7 +77,6 @@ require_once('config/theme.php');
 <?php mduiBody();
 mduiHeader('记事本');
 mduiMenu(); ?>
-
 <div id="mainContent">
     <ul class="mdui-list">
         <?php

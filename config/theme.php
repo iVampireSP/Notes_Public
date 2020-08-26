@@ -15,6 +15,7 @@ function mduiHeader($subtitle)
     <div id="topload" style="display: none; position: absolute; buttom: 10px;" class="mdui-progress">
         <div class="mdui-progress-indeterminate"></div>
     </div>
+    <div id="loadScreen" style="z-index:10;position:fixed;top:0;width:100%;height:0%;background-image:linear-gradient(180deg, #f2f2f5, #f9f9f9)"><h1 id="loadScreenText" style="text-align:center;font-weight:300;margin-top:30%">Sweet Home Note</h1></div>
 </header>
 EOF;
 }
@@ -66,7 +67,6 @@ function mduiHead($title)
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.0/dist/css/mdui.min.css" integrity="sha384-2PJ2u4NYg6jCNNpv3i1hK9AoAqODy6CdiC+gYiL2DVx+ku5wzJMFNdE3RoWfBIRP" crossorigin="anonymous" />
     <link rel="icon" href="https://nwl.im/avatar" />
     <link rel="apple-touch-icon" href="https://nwl.im/avatar" />
-    
     <style type="text/css">
     .link {
         color: blue;
@@ -75,6 +75,9 @@ function mduiHead($title)
     #mainContent, #noteContent {
         position: relative;
         top: 0px
+    }
+    .mdui-drawer {
+        z-index: 1
     }
     </style>
 EOF;
