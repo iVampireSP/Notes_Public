@@ -221,7 +221,8 @@ function userReg() {
 
 function userLogin() {
     changeUrl(null, '正在登录...');
-    showloading();
+    $("#loadScreen").css('height', '100%');
+    $("#loadScreenText").css('display', 'block');
     var userid = $('#userid').val();
     var password = $('#password').val();
     // 先判断是否为空，请：
@@ -230,7 +231,9 @@ function userLogin() {
             message: '能不能好好填啊Kora!',
             position: 'bottom'
         });
-        showloading_end();
+        $("#loadScreen").animate({ height: '0px' });
+        $("#loadScreen").css('height', '0');
+        $("#loadScreenText").css('display', 'none');
         return false;
     }
     var xmlhttp;
@@ -245,7 +248,9 @@ function userLogin() {
             });
             loadIndex();
             loadBar();
-
+            $("#loadScreen").animate({ height: '0px' });
+            $("#loadScreen").css('height', '0');
+            $("#loadScreenText").css('display', 'none');
         }
     }
     xmlhttp.open("POST", "login.php", true);
