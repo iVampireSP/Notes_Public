@@ -766,8 +766,9 @@ function loadGroupEditor() {
             document.getElementById("mainContent").innerHTML = xmlhttp.responseText;
             mdui.mutation();
             document.getElementById("menu").innerHTML = "<li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">event_note</i><div class=\"mdui-list-item-content\" onclick=\"loadIndex()\">记事本</div></li><li class=\"mdui-list-item mdui-ripple mdui-list-item-active\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">add</i><div class=\"mdui-list-item-content\" onclick=\"loadAdd()\">新增记事本</div></li><li class=\"mdui-list-item mdui-ripple\"><i class=\"mdui-list-item-icon mdui-icon material-icons\">share</i><div class=\"mdui-list-item-content\" onclick=\"loadShareground()\">分享广场</div></li>";
+            showloading_end();
             // #content变化时提交信息
-            $("#content").change(function() {
+            $("#content").keyup(function() {
                 ws.send($('#content').val());
             });
         }
@@ -794,9 +795,5 @@ function Connect_Group(ip_port) {
     };
     ws.onmessage = function(e) {
         $('#content').val(e.data);
-        mdui.snackbar({
-            message: '内容有更新',
-            position: 'bottom'
-        });
     };
 }
