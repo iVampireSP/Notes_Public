@@ -6,6 +6,7 @@ if (isset($_SESSION['user'])) {
 require_once('config/config.php');
 if (!empty($_REQUEST['password'])) {
     // 用户注册
+    sleep(1); // 这一秒，是为了打动你的心。
     echo $user->Register($_REQUEST['password']);
     return '*';
 }

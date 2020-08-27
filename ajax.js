@@ -14,25 +14,33 @@ window.addEventListener('change_style', function(event) {
 // mdui.alert('请注意：我们的许可条款已更新。<br />改动内容：分享记事本时，记事本将会出现在“分享广场”上。<br />请熟知！');
 function showLoadingScreen() {
     new mdui.Drawer('#main-drawer').close();
+    $("#loadScreen").animate({ height: '100%' });
     $("#loadScreen").css('height', '100%');
     $("#loadScreenText").css('display', 'block');
 }
-showLoadingScreen();
 document.onreadystatechange = completeLoading;
-// 加载完成后隐藏加载界面
+// 加载完成后隐藏加载界面，当然这也可以解锁
 function completeLoading() {
     if (document.readyState == "complete") {
         $("#loadScreen").animate({ height: '0px' });
         $("#loadScreen").css('height', '0');
         $("#loadScreenText").css('display', 'none');
         $('body').css('overflow', 'auto');
-        new mdui.Drawer('#main-drawer').open();
+        var system = {};
+        var p = navigator.platform;
+        system.win = p.indexOf("Win") == 0;
+        system.mac = p.indexOf("Mac") == 0;
+        system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+        if (system.win || system.mac || system.xll) {
+            new mdui.Drawer('#main-drawer').open();
+        } else {}
     }
 }
 
 function showLoadingScreenLock() {
     // 直到刷新前将保持锁住
     new mdui.Drawer('#main-drawer').close();
+    $("#loadScreen").animate({ height: '100%' });
     $("#loadScreen").css('height', '100%');
     $("#loadScreenText").css('display', 'block');
     $('body').css('overflow', 'hidden');
@@ -199,6 +207,7 @@ function loadWelcome() {
 function userReg() {
     changeUrl(null, '正在注册...');
     showloading();
+    showLoadingScreen();
     var password = $('#password').val();
     // 先判断是否为空，请：
     if (password == null || password == "") {
@@ -206,6 +215,9 @@ function userReg() {
             message: '能不能好好填啊Kora!',
             position: 'bottom'
         });
+        $("#loadScreen").animate({ height: '0px' });
+        $("#loadScreen").css('height', '0');
+        $("#loadScreenText").css('display', 'none');
         showloading_end();
         return false;
     }
@@ -217,6 +229,9 @@ function userReg() {
             changeUrl('/', 'Sweet Home -> Note');
             loadWelcome();
             showloading_end();
+            $("#loadScreen").animate({ height: '0px' });
+            $("#loadScreen").css('height', '0');
+            $("#loadScreenText").css('display', 'none');
         }
     }
     xmlhttp.open("POST", "register.php", true);
@@ -227,8 +242,7 @@ function userReg() {
 function userLogin() {
     new mdui.Drawer('#main-drawer').close();
     changeUrl(null, '正在登录...');
-    $("#loadScreen").css('height', '100%');
-    $("#loadScreenText").css('display', 'block');
+    showLoadingScreen();
     var userid = $('#userid').val();
     var password = $('#password').val();
     // 先判断是否为空，请：
