@@ -76,6 +76,9 @@ function mduiHead($title)
         position: relative;
         top: 0px
     }
+    #title,#content {
+        cursor: text;
+    }
     </style>
 EOF;
 }
