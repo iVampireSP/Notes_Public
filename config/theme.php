@@ -76,9 +76,6 @@ function mduiHead($title)
         position: relative;
         top: 0px
     }
-    .mdui-drawer {
-        z-index: 1
-    }
     </style>
 EOF;
 }

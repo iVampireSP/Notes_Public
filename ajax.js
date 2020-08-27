@@ -12,6 +12,7 @@ window.addEventListener('change_style', function(event) {
 
 // 公告
 // mdui.alert('请注意：我们的许可条款已更新。<br />改动内容：分享记事本时，记事本将会出现在“分享广场”上。<br />请熟知！');
+new mdui.Drawer('#main-drawer').close();
 $("#loadScreen").css('height', '100%');
 $("#loadScreenText").css('display', 'block');
 document.onreadystatechange = completeLoading;
@@ -21,6 +22,7 @@ function completeLoading() {
         $("#loadScreen").animate({ height: '0px' });
         $("#loadScreen").css('height', '0');
         $("#loadScreenText").css('display', 'none');
+        new mdui.Drawer('#main-drawer').open();
     }
 }
 
@@ -220,6 +222,7 @@ function userReg() {
 }
 
 function userLogin() {
+    new mdui.Drawer('#main-drawer').close();
     changeUrl(null, '正在登录...');
     $("#loadScreen").css('height', '100%');
     $("#loadScreenText").css('display', 'block');
@@ -251,6 +254,7 @@ function userLogin() {
             $("#loadScreen").animate({ height: '0px' });
             $("#loadScreen").css('height', '0');
             $("#loadScreenText").css('display', 'none');
+            location.reload();
         }
     }
     xmlhttp.open("POST", "login.php", true);
