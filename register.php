@@ -89,7 +89,7 @@ mduiMenu(); ?>
         </div>
     </div>
 </form>
-<div style="width: 163px; height: 20px; margin: 0px auto;"><span style="position: absolute; bottom: 5px; color: gray;">Powered&nbsp;By&nbsp;Loli.Rocks&nbsp;Team.</span></div>
+<div style="width: 163px; height: 20px; margin: 0px auto;padding-top: 1rem"><span style="position: absolute; bottom: 5px; color: gray;">Powered&nbsp;By&nbsp;Loli.Rocks&nbsp;Team.</span></div>
 </div>
 <?php mduiFooter(); ?>
 </body>
