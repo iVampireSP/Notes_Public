@@ -12,9 +12,12 @@ window.addEventListener('change_style', function(event) {
 
 // 公告
 // mdui.alert('请注意：我们的许可条款已更新。<br />改动内容：分享记事本时，记事本将会出现在“分享广场”上。<br />请熟知！');
-new mdui.Drawer('#main-drawer').close();
-$("#loadScreen").css('height', '100%');
-$("#loadScreenText").css('display', 'block');
+function showLoadingScreen() {
+    new mdui.Drawer('#main-drawer').close();
+    $("#loadScreen").css('height', '100%');
+    $("#loadScreenText").css('display', 'block');
+}
+showLoadingScreen();
 document.onreadystatechange = completeLoading;
 // 加载完成后隐藏加载界面
 function completeLoading() {
@@ -22,8 +25,18 @@ function completeLoading() {
         $("#loadScreen").animate({ height: '0px' });
         $("#loadScreen").css('height', '0');
         $("#loadScreenText").css('display', 'none');
+        $('body').css('overflow', 'auto');
         new mdui.Drawer('#main-drawer').open();
     }
+}
+
+function showLoadingScreenLock() {
+    // 直到刷新前将保持锁住
+    new mdui.Drawer('#main-drawer').close();
+    $("#loadScreen").css('height', '100%');
+    $("#loadScreenText").css('display', 'block');
+    $('body').css('overflow', 'hidden');
+    changeUrl(null, 'Sweet Home Note');
 }
 
 function change_style() {

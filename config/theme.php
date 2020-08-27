@@ -11,11 +11,12 @@ function mduiHeader($subtitle)
         <span class="mdui-typo-title" id="subTitle">$subtitle</span>
         <span onclick="change_style()" style="position: absolute; right: 5px; border-radius: 100%" mdui-tooltip="{content: '日夜配色', position: 'bottom'}" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"><i class="mdui-icon material-icons">&#xe3a9;</i></span>
         <span onclick="getID()" style="position: absolute; right: 65px; border-radius: 100%" mdui-tooltip="{content: '获取ID', position: 'bottom'}" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"><i class="mdui-icon material-icons">&#xe853;</i></span>
+        <span onclick="showLoadingScreenLock();" style="position: absolute; right: 130px; border-radius: 100%" mdui-tooltip="{content: '锁屏', position: 'bottom'}" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"><i class="mdui-icon material-icons">&#xe897;</i></span>
     </div>
     <div id="topload" style="display: none; position: absolute; buttom: 10px;" class="mdui-progress">
         <div class="mdui-progress-indeterminate"></div>
     </div>
-    <div id="loadScreen" style="z-index:10;position:fixed;top:0;width:100%;height:0%;background-image:linear-gradient(180deg, #f2f2f5, #f9f9f9)"><h1 id="loadScreenText" style="text-align:center;font-weight:300;margin-top:30%">Sweet Home Note</h1></div>
+    <div id="loadScreen" style="z-index:10;position:fixed;top:0;width:100%;height:0%;background-image:linear-gradient(180deg, #f2f2f5, #f9f9f9)"><h1 id="loadScreenText" style="text-align:center;font-weight:300;margin-top:22%">Sweet Home Note</h1></div>
 </header>
 EOF;
 }
