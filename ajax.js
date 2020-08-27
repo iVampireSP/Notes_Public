@@ -37,20 +37,10 @@ function change_style() {
 }
 // 夜间代码结束
 function showloading() {
-    var abutton = document.getElementById("a-but");
-    // document.getElementById("topload").style.display = "block";
-    if (abutton !== null) {
-        document.getElementById("a-but").style.display = 'none';
-    }
     document.getElementById("topload").style.display = 'block';
 }
 
 function showloading_end() {
-    var abutton = document.getElementById("a-but");
-    // document.getElementById("topload").style.display = "block";
-    if (abutton !== null) {
-        document.getElementById("a-but").style.display = 'none';
-    }
     document.getElementById("topload").style.display = 'none';
 }
 
