@@ -16,7 +16,7 @@ function mduiHeader($subtitle)
     <div id="topload" style="display: none; position: absolute; buttom: 10px;" class="mdui-progress">
         <div class="mdui-progress-indeterminate"></div>
     </div>
-    <div id="loadScreen" style="z-index:10;position:fixed;top:0;width:100%;height:0%;background-image:linear-gradient(180deg, #f2f2f5, #f9f9f9)"><h1 id="loadScreenText" style="text-align:center;font-weight:300;margin-top:22%">Sweet Home Note</h1></div>
+    <div id="loadScreen" onclick="completeLoading();" style="z-index:10;position:fixed;top:0;width:100%;height:0%;background-image:linear-gradient(180deg, #f2f2f5, #f9f9f9)"><h1 id="loadScreenText" style="text-align:center;font-weight:300;margin-top:22%">Sweet Home Note</h1></div>
 </header>
 EOF;
 }
