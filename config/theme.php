@@ -80,6 +80,14 @@ function mduiHead($title)
     #title,#content {
         cursor: text;
     }
+    @keyframes skeleton-load {
+        0% {
+            background-position: 0rem;
+        }
+        100% {
+            background-position: 10000rem;
+        }
+    }
     </style>
 EOF;
 }
